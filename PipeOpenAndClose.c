@@ -52,29 +52,29 @@ INT32 main()
 void DealRemoteFile(void)
 {
     UINT8  szCmdBuf[1024]    = {0};
-	UINT8  szResultBuf[1024] = {0};
-	FILE  *fpPipe            = NULL;
+    UINT8  szResultBuf[1024] = {0};
+    FILE  *fpPipe            = NULL;
 	
-	snprintf(szCmdBuf, sizeof(szCmdBuf)-1, "(sleep 0.5; echo zhou; sleep 1; echo zhou; sleep 5; echo \"cd /home/zhou/zhouzx/Test;rm -rf TestFile.txt;\"; sleep 2) | telnet 10.10.10.10");
+    snprintf(szCmdBuf, sizeof(szCmdBuf)-1, "(sleep 0.5; echo zhou; sleep 1; echo zhou; sleep 5; echo \"cd /home/zhou/zhouzx/Test;rm -rf TestFile.txt;\"; sleep 2) | telnet 10.10.10.10");
 	
-	printf("DealRemoteFile: Cmd is %s\n", szCmdBuf);
+    printf("DealRemoteFile: Cmd is %s\n", szCmdBuf);
 	
     fpPipe = popen(szCmdBuf, "r"); 
-	if (NULL == fpPipe)
-	{
-	    printf("DealRemoteFile: fpPipe is NULL!\n");
-		return;
-	}
+    if (NULL == fpPipe)
+    {
+        printf("DealRemoteFile: fpPipe is NULL!\n");
+	return;
+    }
 	
-	while (fgets(szResultBuf, sizeof(szResultBuf), fpPipe) != NULL)
-	{
+    while (fgets(szResultBuf, sizeof(szResultBuf), fpPipe) != NULL)
+    {
         if ('\n' == szResultBuf[strlen(szResultBuf)-1])    // 将换行符去掉
     	{  
     	    szResultBuf[strlen(szResultBuf)-1] = '\0';  
-		}  
+	}  
     }  
     
-	pclose(fpPipe);    // 关闭管道
-	fpPipe = NULL;
+    pclose(fpPipe);    // 关闭管道
+    fpPipe = NULL;
 } 
 
